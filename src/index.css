@@ -6,6 +6,7 @@ body {
     padding: 0px;
     margin: 0px;
     position: relative; /* Añadido para overlay */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 body::before {
@@ -56,9 +57,9 @@ h1 {
 }
 
 .navbar a:hover {
-    color: yellow;
-    text-shadow: 0px 0px 5px yellow;
-    font-size: 21px;
+    color: rgb(201, 165, 49);
+    text-shadow: 0px 0px 5px rgb(201, 165, 49);
+
 }
 .navbar li {
     float: none; 
