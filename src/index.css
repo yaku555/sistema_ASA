@@ -1,12 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap');
+
 body {
-    background-image: url('https://i.blogs.es/0587c0/foto-archivo-choque-800x600/840_560.jpeg');
+    background-image: url('https://www.kilpatrickexecutive.com/wp-content/uploads/2024/01/Google-Discover-image-size-1-1024x683.png.webp');
     background-size: cover;
     background-position: center;
     min-height: 100vh;
     padding: 0px;
     margin: 0px;
     position: relative; /* Añadido para overlay */
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: 'Oswald', sans-serif;
 }
 
 body::before {
@@ -30,26 +32,48 @@ h1 {
     text-align: center;
 }
 
+.borde_nav
+{
+    background-color: rgba(122, 122, 122, 0.3);
+    padding: 0 50px;
+ 
+
+    border-bottom: 1px solid rgb(117, 117, 117);
+}
+
+.header
+{
+    display: flex;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.header img
+{
+    width: 100px;
+    height: auto;
+
+}
+
 .navbar ul {
+     border-top: 1px solid rgb(117, 117, 117);
     display: flex;
     justify-content: center;
     align-items: center;
     list-style-type: none;
-    background-color: rgba(139, 139, 139, 0.3);
-    padding: 10px;
+    
     margin: 0px;
     overflow: hidden;
 }
 
 .navbar a {
-    font-size: 20px;
+    font-size: 15px;
     color: white;
     text-decoration: none;
-    padding: 0 50px;
+    padding: 15px 50px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    height: 50px;      
+    justify-content: center;     
     line-height: 1; 
     transition: all 1s ease;
     box-sizing: border-box;
