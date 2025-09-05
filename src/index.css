@@ -32,59 +32,99 @@ h1 {
     text-align: center;
 }
 
-.borde_nav
-{
+.borde_nav {
     background-color: rgba(122, 122, 122, 0.3);
     padding: 0 50px;
- 
-
     border-bottom: 1px solid rgb(117, 117, 117);
 }
 
-.header
-{
-    display: flex;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.header img
-{
-    width: 100px;
-    height: auto;
-
-}
-
-.navbar ul {
-     border-top: 1px solid rgb(117, 117, 117);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style-type: none;
+.header {
     
-    margin: 0px;
+    align-items: center;
+    display: flex;
+    padding: 15px 0;
+}
+
+.header section {
+    display: flex;
+    margin-left: auto;
+}
+
+.header img {
+    
+    height: 50px;
+    width: auto;
+    padding: auto;
+}
+
+.info_navbar {
+    width: 300px;
+    font-weight: lighter;
+    color: white;
+    display: flex;
+    align-items: center;
+    text-shadow: 0px 0px 5px black;
+    font-size: 8px;
+    gap: 20px;
+}
+
+
+
+.icono {
+  width: 50px;
+  height: 50px;
+  fill: #FCB615;
+}
+
+
+.info_navbar img {
+    height: auto;
+    width: auto;
+    padding-right: 30px;
+    fill: rgb(252, 182, 21);
+}
+
+
+/* ===== NAVBAR AJUSTADO PARA OCUPAR TODO EL ANCHO ===== */
+.navbar ul {
+    border-top: 1px solid rgb(117, 117, 117);
+    display: flex;
+    align-items: stretch;     /* cada li se estira verticalmente */
+    justify-content: stretch; /* dejamos que los li ocupen todo el espacio */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;              /* asegura 100% del contenedor */
     overflow: hidden;
+
+}
+
+.navbar li {
+    margin-right: 50px;
 }
 
 .navbar a {
-    font-size: 15px;
-    color: white;
-    text-decoration: none;
-    padding: 15px 50px;
     display: flex;
-    align-items: center;
-    justify-content: center;     
-    line-height: 1; 
-    transition: all 1s ease;
-    box-sizing: border-box;
+    justify-content: center;  /* centra el texto dentro de cada celda */
+    width: 100%;              /* el enlace ocupa todo el li */
+    padding: 10px 0px;
+
     
+    font-size: 15px;
+    color: rgb(240, 240, 240);
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    box-sizing: border-box;
 }
 
 .navbar a:hover {
-    color: rgb(201, 165, 49);
-    text-shadow: 0px 0px 5px rgb(201, 165, 49);
-
+    color: rgb(252, 182, 21);
+    text-shadow: 0px 0px 5px rgb(252, 182, 21);
+    border-bottom: 1.5px solid rgb(252, 182, 21);
+    
 }
-.navbar li {
-    float: none; 
+
+.navbar a.active {
+  color: rgb(252, 182, 21);
+  border-bottom: 1.5px solid rgb(252, 182, 21); 
 }
