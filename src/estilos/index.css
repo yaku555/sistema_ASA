@@ -1,31 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&display=swap');
-
+::selection {
+    background: rgb(37, 37, 37);   /* Fondo negro */
+    color: #fff;        /* Texto blanco */
+}
 body {
-    background-image: url('https://www.kilpatrickexecutive.com/wp-content/uploads/2024/01/Google-Discover-image-size-1-1024x683.png.webp');
-    background-size: cover;
-    background-position: center;
-    min-height: 100vh;
+    background-color: rgb(255, 255, 255);
+    font-family: 'Oswald', sans-serif;
+    color: rgb(240, 240, 240);
     padding: 0px;
     margin: 0px;
-    position: relative; 
-    font-family: 'Oswald', sans-serif;
+    position: relative;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5); 
-    z-index: -1;
-    pointer-events: none;
-}
 
 main {
+    color: rgb(47, 47, 47);
     margin-left: 20px;
     margin-right: 20px;
+    min-height: 70vh;
 }
 
 h1 {
@@ -33,8 +25,8 @@ h1 {
 }
 
 .borde_nav {
-    background-color: rgba(122, 122, 122, 0.3);
-    padding: 0 50px;
+    background-color: rgb(37, 37, 37);
+    padding: 5px 20px;
     border-bottom: 1px solid rgb(117, 117, 117);
 }
 
@@ -43,6 +35,7 @@ h1 {
     align-items: center;
     display: flex;
     padding: 15px 0;
+  
 }
 
 .header section {
@@ -52,9 +45,8 @@ h1 {
 
 .header img {
     
-    height: 50px;
+    height: 40px;
     width: auto;
-    padding: auto;
 }
 
 .info_navbar {
@@ -71,8 +63,8 @@ h1 {
 
 
 .icono {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   fill: #FCB615;
 }
 
@@ -85,6 +77,7 @@ h1 {
 }
 
 
+
 .navbar ul {
     border-top: 1px solid rgb(117, 117, 117);
     display: flex;
@@ -92,9 +85,10 @@ h1 {
     justify-content: stretch; 
     list-style-type: none;
     margin: 0;
-    padding: 0;
+    padding: 5px 0;
     width: 100%;              
     overflow: hidden;
+ 
 
 }
 
@@ -109,7 +103,7 @@ h1 {
     padding: 10px 0px;
 
     
-    font-size: 15px;
+    font-size: 20px;
     color: rgb(240, 240, 240);
     text-decoration: none;
     transition: color 0.3s ease, text-shadow 0.3s ease;
@@ -118,12 +112,51 @@ h1 {
 
 .navbar a:hover {
     color: rgb(252, 182, 21);
-    text-shadow: 0px 0px 5px rgb(252, 182, 21);
-    border-bottom: 1.5px solid rgb(252, 182, 21);
+    text-shadow: 0px 0px 1px rgb(252, 182, 21);
+
+}
+
+.dashboard-cards {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 30px;
+    gap: 20px;
     
 }
 
-.navbar a.active {
-  color: rgb(252, 182, 21);
-  border-bottom: 1.5px solid rgb(252, 182, 21); 
+.dashboard-card {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 30%;
+}
+
+.dashboard-card h3 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.dashboard-card p {
+    color: #555;
+    font-size: 1.1rem;
+}
+
+
+footer {
+    background-color: rgb(37, 37, 37);
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    font-size: 1rem;
+}
+
+footer span {
+    font-weight: bold;
+}
+
+footer p {
+    margin: 5px;
+    font-size: 0.9rem;
 }
