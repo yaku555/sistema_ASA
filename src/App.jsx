@@ -30,18 +30,114 @@ export function Inicio() {
   );
 }
 
-export function registrarSin() {
-  return <div><h3>test1</h3><p>test</p></div>;
-}
 
-export function gestionarSin() {
+
+export function RegistrarSin() {
   return <div><h3>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</h3><p>test</p></div>;
 }
 
-export function reportesBI() {
+export function GestionarSin() {
+  return (
+    <main>
+      <br />
+      <div className="contenedor-principal">
+        <section className="seccion_siniestros">
+          <div className="siniestro-card">
+            <div className="card-header">
+              <h2>#5593930</h2>
+              <p className="estado ret"></p>
+            </div>
+            <div className="card-details">
+              <div>
+                <p>GH-KX-32</p>
+                <p>Chevrolet Durango</p>
+                <p>Fecha Registro: 12/03/2024</p>
+                <p>Taller: N/A</p>
+                <p>Grua: HG-AK-45</p>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <p>Juan Pérez</p>
+                <p>22.564.244-4</p>
+                <p>+56 9 1234 5678</p>
+                <p>correo@gmail.com</p>
+              </div>
+            </div>
+            <button className="btn">GESTIONAR</button>
+          </div>
+          <div className="siniestro-card">
+            <div className="card-header">
+              <h2>#5593930</h2>
+              <p className="estado ret"></p>
+            </div>
+            <div className="card-details">
+              <div>
+                <p>GH-KX-32</p>
+                <p>Chevrolet Durango</p>
+                <p>Fecha Registro: 12/03/2024</p>
+                <p>Taller: N/A</p>
+                <p>Grua: HG-AK-45</p>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <p>Juan Pérez</p>
+                <p>22.564.244-4</p>
+                <p>+56 9 1234 5678</p>
+                <p>correo@gmail.com</p>
+              </div>
+            </div>
+            <button className="btn">GESTIONAR</button>
+          </div>
+        </section>
+        <aside className="seccion-extra">
+          <h2>𖤘 FILTRAR </h2>
+          <label htmlFor="fecha">FECHA DE REGISTRO:</label>
+          <input type="date" id="fecha" className="filtro" />
+          <label htmlFor="estado">ESTADO:</label>
+          <select id="estado" className="filtro">
+            <option value="" disabled selected>Seleccione estado...</option>
+            <option value="evaluacion">En Evaluación</option>
+            <option value="reparacion">En reparación</option>
+            <option value="retrasado">Retrasado</option>
+            <option value="reingresado">Reingresado</option>
+            <option value="finalizado">Finalizado</option>
+            <option value="entregado">Entregado</option>
+          </select>
+          <label htmlFor="poliza">POLIZA:</label>
+          <input type="text" id="poliza" className="filtro" placeholder="Buscar poliza..." />
+          <button className="btn" id="btn-reset">REESTABLECER</button>
+          <button type="reset" className="btn">FILTRAR</button>
+        </aside>
+      </div>
+      <div id="modal-panel" className="modal-panel" style={{ display: "none" }}>
+        <div className="modal-content">
+          <span id="close-modal" className="close-btn">&times;</span>
+          <h2>Gestionar Siniestro</h2>
+          <form id="gestion-form">
+            <label htmlFor="modal-taller">Taller:</label>
+            <input type="text" id="modal-taller" name="taller" />
+            <label htmlFor="modal-grua">Grúa:</label>
+            <input type="text" id="modal-grua" name="grua" />
+            <label htmlFor="modal-estado">Estado:</label>
+            <select id="modal-estado" name="estado">
+              <option value="eva">En Evaluación</option>
+              <option value="rep">En reparación</option>
+              <option value="ret">Retrasado</option>
+              <option value="rein">Reingresado</option>
+              <option value="fin">Finalizado</option>
+              <option value="ent">Entregado</option>
+            </select>
+            <br /><br />
+            <button type="submit" className="btn">GUARDAR CAMBIOS</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+export function ReportesBI() {
   return <div><h3>test3</h3><p>test</p></div>;
 }
-export function adminUsuarios() {
+export function AdminUsuarios() {
   return <div><h3>test4</h3><p>test</p></div>;
 }
 export default function App() {
@@ -49,7 +145,7 @@ export default function App() {
     <Router>
       <section className="borde_nav">
         <div className="header">
-          <img src={logo} alt="Logo" style={{borderRadius: "5px"}}/>
+          <img src={logo} alt="Logo" style={{ borderRadius: "5px" }} />
           <section>
             <div className="info_navbar">
               <svg className="icono" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -82,22 +178,22 @@ export default function App() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/registrarSin" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/RegistrarSin" className={({ isActive }) => (isActive ? "active" : "")}>
                 REGISTRAR SINIESTRO
               </NavLink>
             </li>
             <li>
-              <NavLink to="/gestionarSin" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/GestionarSin" className={({ isActive }) => (isActive ? "active" : "")}>
                 GESTIONAR SINIESTROS
               </NavLink>
             </li>
             <li>
-              <NavLink to="/reportesBI" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/ReportesBI" className={({ isActive }) => (isActive ? "active" : "")}>
                 REPORTES BI
               </NavLink>
             </li>
             <li>
-              <NavLink to="/adminUsuarios" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/AdminUsuarios" className={({ isActive }) => (isActive ? "active" : "")}>
                 ADMINISTRAR USUARIOS
               </NavLink>
             </li>
@@ -109,10 +205,10 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Inicio />} />
-          <Route path="/registrarSin" element={<registrarSin />} />
-          <Route path="/gestionarSin" element={<gestionarSin />} />
-          <Route path="/reportesBI" element={<reportesBI />} /> 
-          <Route path="/adminUsuarios" element={<adminUsuarios />} />
+          <Route path="/registrarSin" element={<RegistrarSin />} />
+          <Route path="/gestionarSin" element={<GestionarSin />} />
+          <Route path="/reportesBI" element={<ReportesBI />} />
+          <Route path="/adminUsuarios" element={<AdminUsuarios />} />
         </Routes>
       </main>
     </Router>
