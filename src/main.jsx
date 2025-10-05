@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './estilos/index.css'
 import './estilos/boton.css'
-import './estilos/gestion.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
