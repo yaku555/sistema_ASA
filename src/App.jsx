@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import logo from "./assets/logo.png";
 
@@ -62,7 +62,7 @@ export default function App() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/AdminUsuarios" className={({ isActive }) => (isActive ? "active" : "")}>
+              <NavLink to="/adminUsuarios" className={({ isActive }) => (isActive ? "active" : "")}>
                 ADMINISTRAR USUARIOS
               </NavLink>
             </li>
@@ -77,7 +77,7 @@ export default function App() {
           <Route path="/registrarSin" element={<RegistrarSin />} />
           <Route path="/gestionarSin" element={<GestionarSin />} />
           <Route path="/reportesBI" element={<ReportesBI />} />
-          <Route path="/adminUsuarios" element={<AdminUsuarios />} />
+          <Route path="/adminusuarios" element={<AdminUsuarios />} />
         </Routes>
       </main>
     </Router>
