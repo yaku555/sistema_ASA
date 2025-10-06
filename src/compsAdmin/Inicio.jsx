@@ -19,11 +19,6 @@ export default function Inicio() {
           <p>3 siniestros retrasados en reparación</p>
         </div>
       </div>
-      <footer>
-        <p>Desarrollado por <span>djdkjskds</span></p>
-        <p>Copyright &copy; 2050 - Derechos reservados</p>
-        <p>Sistema Asistencia Siniestro Automotriz</p>
-      </footer>
     </main>
   );
 }
