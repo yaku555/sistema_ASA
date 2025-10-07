@@ -8,7 +8,7 @@ import '../estilos/gestion.css';
 const USUARIOS_INICIALES = [
   {
     rut: "12.345.678-9",
-    nombre: "Juan",
+    nombre: "Juane",
     apellido: "Pérez",
     telefono: "+56 9 1234 5678",
     email: "juan.perez@gmail.com",
