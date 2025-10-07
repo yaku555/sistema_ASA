@@ -116,6 +116,11 @@ h1 {
 
 }
 
+.navbar a.active {
+    color: rgb(252, 182, 21);
+    text-shadow: 0px 0px 1px rgb(252, 182, 21);
+}
+
 .dashboard-cards {
     display: flex;
     justify-content: space-around;
