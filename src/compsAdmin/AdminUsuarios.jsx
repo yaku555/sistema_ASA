@@ -2,6 +2,9 @@ import React, { useMemo, useState } from "react";
 import '../estilos/gestion.css';
 
 // ---- Datos iniciales de usuarios ----
+import React, { useState } from "react";
+import '../estilos/gestion.css';
+
 const USUARIOS_INICIALES = [
   {
     rut: "12.345.678-9",
