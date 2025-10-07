@@ -1,220 +1,166 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import '../estilos/gestion.css';
 
-const AdminUsuarios = () => {
-  const [usuarios, setUsuarios] = useState([]);
-  const [formData, setFormData] = useState({
-    id: '',
-    nombre: '',
-    email: '',
-    password: '',
-    rol: 'usuario',
-    estado: 'activo'
-  });
-  const [modo, setModo] = useState('crear');
-  const [busqueda, setBusqueda] = useState('');
+const USUARIOS_INICIALES = [
+  {
+    rut: "12.345.678-9",
+    nombre: "Juan",
+    apellido: "Pérez",
+    telefono: "+56 9 1234 5678",
+    email: "juan.perez@gmail.com",
+    direccion: "Av. Siempreviva 123",
+    ciudad: "Santiago",
+    fechaNacimiento: "1990-05-10",
+    licencia: "Clase B",
+    rol: "Administrador",
+    activo: true,
+  },
+  {
+    rut: "98.765.432-1",
+    nombre: "María",
+    apellido: "González",
+    telefono: "+56 9 8765 4321",
+    email: "maria.gonzalez@gmail.com",
+    direccion: "Calle Falsa 456",
+    ciudad: "Valparaíso",
+    fechaNacimiento: "1985-11-22",
+    licencia: "Clase C",
+    rol: "Operador",
+    activo: false,
+  },
+];
 
-  useEffect(() => {
-    const usuariosIniciales = [
-      { id: 1, nombre: 'Administrador', email: 'admin@asa.com', rol: 'admin', estado: 'activo' },
-      { id: 2, nombre: 'Usuario Test', email: 'usuario@asa.com', rol: 'usuario', estado: 'activo' }
-    ];
-    setUsuarios(usuariosIniciales);
-  }, []);
+const ROLES = ["Administrador", "Operador", "Supervisor"];
 
-  const handleInputChange = (e) => {
+export default function AdminUsuarios() {
+  const [usuarios, setUsuarios] = useState(USUARIOS_INICIALES);
+  const [filtros, setFiltros] = useState({ nombre: "", rut: "", rol: "", activo: "" });
+  const [modal, setModal] = useState({ open: false, usuario: null });
+
+  // Filtrar usuarios solo al hacer click en FILTRAR
+  const filtrar = () => usuarios.filter(u =>
+    (!filtros.nombre || u.nombre.toLowerCase().includes(filtros.nombre.toLowerCase())) &&
+    (!filtros.rut || u.rut.includes(filtros.rut)) &&
+    (!filtros.rol || u.rol === filtros.rol) &&
+    (filtros.activo === "" || u.activo === (filtros.activo === "true"))
+  );
+
+  const [usuariosFiltrados, setUsuariosFiltrados] = useState(usuarios);
+
+  const handleFiltrar = () => setUsuariosFiltrados(filtrar());
+  const handleResetFiltros = () => {
+    setFiltros({ nombre: "", rut: "", rol: "", activo: "" });
+    setUsuariosFiltrados(usuarios);
+  };
+
+  const openModal = usuario => setModal({ open: true, usuario });
+  const closeModal = () => setModal({ open: false, usuario: null });
+
+  const handleModalChange = e => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
+    setModal(m => ({
+      ...m,
+      usuario: { ...m.usuario, [name]: name === "activo" ? value === "true" : value }
     }));
   };
 
-  const handleBusqueda = (e) => {
-    setBusqueda(e.target.value);
-  };
-
-  const usuariosFiltrados = usuarios.filter(usuario => 
-    usuario.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-    usuario.email.toLowerCase().includes(busqueda.toLowerCase())
-  );
-
-  const handleSubmit = (e) => {
+  const handleModalSubmit = e => {
     e.preventDefault();
-    if (!formData.nombre || !formData.email) {
-      alert('Por favor complete los campos requeridos');
-      return;
-    }
-
-    if (modo === 'crear') {
-      const nuevoUsuario = {
-        ...formData,
-        id: Date.now()
-      };
-      setUsuarios([...usuarios, nuevoUsuario]);
-    } else {
-      setUsuarios(usuarios.map(user => 
-        user.id === formData.id ? formData : user
-      ));
-    }
-    limpiarFormulario();
-  };
-
-  const editarUsuario = (usuario) => {
-    setFormData({
-      ...usuario,
-      password: '' 
-    });
-    setModo('editar');
-  };
-
-  const eliminarUsuario = (id) => {
-    if (window.confirm('¿Está seguro de eliminar este usuario?')) {
-      setUsuarios(usuarios.filter(user => user.id !== id));
-    }
-  };
-
-  const limpiarFormulario = () => {
-    setFormData({
-      id: '',
-      nombre: '',
-      email: '',
-      password: '',
-      rol: 'usuario',
-      estado: 'activo'
-    });
-    setModo('crear');
+    setUsuarios(us =>
+      us.map(u => u.rut === modal.usuario.rut ? modal.usuario : u)
+    );
+    setUsuariosFiltrados(usuarios =>
+      usuarios.map(u => u.rut === modal.usuario.rut ? modal.usuario : u)
+    );
+    closeModal();
   };
 
   return (
-    <div className="admin-container">
-      <h2>Administración de Usuarios</h2>
-      
-      <div className="busqueda-container">
-        <input
-          type="text"
-          placeholder="Buscar usuarios..."
-          value={busqueda}
-          onChange={handleBusqueda}
-          className="busqueda-input"
-        />
+    <main>
+      <div className="contenedor-principal">
+        <section className="seccion_siniestros">
+          {usuariosFiltrados.map(u => (
+            <div className="siniestro-card" key={u.rut} style={{ borderLeft: `5px solid ${u.activo ? "#2ecc71" : "#e74c3c"}` }}>
+              <div className="card-header">
+                <h2>{u.nombre} {u.apellido}</h2>
+                <span className="estado-badge" style={{ background: u.activo ? "#2ecc71" : "#e74c3c", color: "#fff" }}>
+                  {u.activo ? "ACTIVO" : "INACTIVO"}
+                </span>
+              </div>
+              <div className="card-details">
+                <div>
+                  <p>RUT: {u.rut}</p>
+                  <p>Teléfono: {u.telefono}</p>
+                  <p>Email: {u.email}</p>
+                  <p>Dirección: {u.direccion}</p>
+                  <p>Ciudad: {u.ciudad}</p>
+                  <p>Fecha Nacimiento: {u.fechaNacimiento}</p>
+                  <p>Licencia: {u.licencia}</p>
+                  <p>Rol: {u.rol}</p>
+                </div>
+              </div>
+              <button className="btn" onClick={() => openModal(u)}>EDITAR</button>
+            </div>
+          ))}
+          {usuariosFiltrados.length === 0 && <p style={{ opacity: 0.7 }}>No hay resultados con estos filtros.</p>}
+        </section>
+
+        <aside className="seccion-extra">
+          <h2>𖤘 FILTRAR USUARIOS</h2>
+          <label>Nombre:</label>
+          <input className="filtro" value={filtros.nombre} onChange={e => setFiltros(f => ({ ...f, nombre: e.target.value }))} />
+          <label>RUT:</label>
+          <input className="filtro" value={filtros.rut} onChange={e => setFiltros(f => ({ ...f, rut: e.target.value }))} />
+          <label>Rol:</label>
+          <select className="filtro" value={filtros.rol} onChange={e => setFiltros(f => ({ ...f, rol: e.target.value }))}>
+            <option value="">Todos</option>
+            {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+          <label>Estado:</label>
+          <select className="filtro" value={filtros.activo} onChange={e => setFiltros(f => ({ ...f, activo: e.target.value }))}>
+            <option value="">Todos</option>
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+          <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+            <button className="btn" type="button" onClick={handleResetFiltros}>REESTABLECER</button>
+            <button className="btn" type="button" onClick={handleFiltrar}>FILTRAR</button>
+          </div>
+        </aside>
       </div>
 
-      <form onSubmit={handleSubmit} className="form-container">
-        <div className="form-group">
-          <label htmlFor="nombre">Nombre completo *</label>
-          <input
-            id="nombre"
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleInputChange}
-            required
-          />
+      {modal.open && (
+        <div className="modal-panel" style={{ display: "flex" }}>
+          <div className="modal-content">
+            <span className="close-btn" style={{ cursor: "pointer" }} onClick={closeModal}>&times;</span>
+            <h2>Editar Usuario</h2>
+            <form onSubmit={handleModalSubmit}>
+              {["nombre", "apellido", "rut", "telefono", "email", "direccion", "ciudad", "fechaNacimiento", "licencia"].map(field => (
+                <React.Fragment key={field}>
+                  <label>{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
+                  <input
+                    name={field}
+                    type={field === "fechaNacimiento" ? "date" : "text"}
+                    value={modal.usuario[field]}
+                    onChange={handleModalChange}
+                  />
+                </React.Fragment>
+              ))}
+              <label>Rol:</label>
+              <select name="rol" value={modal.usuario.rol} onChange={handleModalChange}>
+                {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+              <label>Activo:</label>
+              <select name="activo" value={modal.usuario.activo ? "true" : "false"} onChange={handleModalChange}>
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+              </select>
+              <br /><br />
+              <button type="submit" className="btn">GUARDAR CAMBIOS</button>
+            </form>
+          </div>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="email">Correo electrónico *</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="password">
-            Contraseña {modo === 'crear' ? '*' : '(dejar en blanco para mantener)'}
-          </label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            required={modo === 'crear'}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="rol">Rol</label>
-          <select id="rol" name="rol" value={formData.rol} onChange={handleInputChange}>
-            <option value="usuario">Usuario</option>
-            <option value="admin">Administrador</option>
-            <option value="supervisor">Supervisor</option>
-          </select>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="estado">Estado</label>
-          <select id="estado" name="estado" value={formData.estado} onChange={handleInputChange}>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-            <option value="suspendido">Suspendido</option>
-          </select>
-        </div>
-
-        <div className="botones-container">
-          <button type="submit" className="btn-principal">
-            {modo === 'crear' ? 'Crear Usuario' : 'Actualizar Usuario'}
-          </button>
-          
-          {modo === 'editar' && (
-            <button type="button" onClick={limpiarFormulario} className="btn-secundario">
-              Cancelar
-            </button>
-          )}
-        </div>
-      </form>
-
-      <div className="tabla-container">
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Email</th>
-              <th>Rol</th>
-              <th>Estado</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {usuariosFiltrados.map(usuario => (
-              <tr key={usuario.id}>
-                <td>{usuario.id}</td>
-                <td>{usuario.nombre}</td>
-                <td>{usuario.email}</td>
-                <td>{usuario.rol}</td>
-                <td>
-                  <span className={`estado-badge ${usuario.estado}`}>
-                    {usuario.estado}
-                  </span>
-                </td>
-                <td className="acciones">
-                  <button 
-                    onClick={() => editarUsuario(usuario)}
-                    className="btn-editar"
-                  >
-                    Editar
-                  </button>
-                  <button 
-                    onClick={() => eliminarUsuario(usuario.id)}
-                    className="btn-eliminar"
-                  >
-                    Eliminar
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
+      )}
+    </main>
   );
-};
-
-export default AdminUsuarios;
+}
