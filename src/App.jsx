@@ -6,7 +6,8 @@ import Inicio from "./compsAdmin/Inicio";
 import RegistrarSin from "./compsAdmin/RegistrarSin";
 import ReportesBI from "./compsAdmin/ReportesBI";
 import AdminUsuarios from "./compsAdmin/AdminUsuarios";
-import GestionarSin from "./compsAdmin/GestionarSin"; 
+import GestionarSin from "./compsAdmin/GestionarSin";
+import Login from "./compsUsuario/login";
 
 
 export default function App() {
@@ -36,7 +37,9 @@ export default function App() {
               </div>
             </div>
 
-            <button><a href="">INICIAR SESIÓN</a></button>
+            <NavLink to="/login" className={({ isActive }) => (isActive ? "active " : "") + "btn"}>
+              REGISTRO / LOGIN
+            </NavLink>
           </section>
         </div>
         <nav className="navbar">
@@ -67,6 +70,7 @@ export default function App() {
               </NavLink>
             </li>
 
+
           </ul>
         </nav>
       </section>
@@ -78,6 +82,7 @@ export default function App() {
           <Route path="/gestionarSin" element={<GestionarSin />} />
           <Route path="/reportesBI" element={<ReportesBI />} />
           <Route path="/adminusuarios" element={<AdminUsuarios />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </main>
     </Router>
