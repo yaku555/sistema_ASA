@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../estilos/registro.css";
 
+
+// Componente para registrar un nuevo siniestro
 export default function RegistrarSin() {
   const [form, setForm] = useState({
     patente: "",
@@ -16,13 +18,14 @@ export default function RegistrarSin() {
     archivo: null,
   });
 
+  // Manejo de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
 
-
+  // Manejo del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
 

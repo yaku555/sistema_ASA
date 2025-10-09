@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../estilos/registro.css";
 
+// Usuario de prueba
 const user = { usuario: "admin", contrasena: "1234" };
 
 export default function Login() {
@@ -12,11 +13,13 @@ export default function Login() {
     patente: "",
   });
 
+  // Manejo de cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Manejo del envío del formulario de login
   const handleLogin = (e) => {
     e.preventDefault();
     if (!form.usuario.trim() || !form.contrasena.trim()) {
@@ -30,6 +33,7 @@ export default function Login() {
     }
   };
 
+  // Manejo del envío del formulario de registro
   const handleRegister = (e) => {
     e.preventDefault();
     if (

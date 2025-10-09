@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import '../estilos/gestion.css'; 
 
+// Datos de prueba
 const ESTADOS = [
   { value: "ing", label: "INGRESADO", color: "#70a766ff" },
   { value: "eva", label: "EN EVALUACIÓN", color: "#C0D900" },
@@ -25,15 +26,15 @@ const TALLERES = [
   { taller: "Central", direccion: "Calle Sur 76" },
 ];
 
-// visibilidad de campos por estado
+//Reglas de visibilidad
 const VISIBILIDAD = {
-  grua: (estado) => ["ing", "eva"].includes(estado),
-  taller: () => true,
+  grua: (estado) => ["ing", "eva"].includes(estado), // grúa solo en estos estados
+  taller: () => true,                                // taller siempre visible
 };
 const shouldShow = (campo, estado) =>
   VISIBILIDAD[campo] ? VISIBILIDAD[campo](estado) : true;
 
-// ---- Datos iniciales (agregamos archivoNombre y archivoURL) ----
+//Datos ejemplo
 const SINIESTROS_INICIALES = [
   {
     patente: "GH-KX-32",
@@ -71,7 +72,8 @@ const SINIESTROS_INICIALES = [
   },
 ];
 
-// ---- Helpers ----
+
+// Normaliza fecha tipo "dd/mm/yyyy" o "dd-mm-yyyy" a "yyyy-mm-dd" 
 const toISO = (raw) => {
   if (!raw) return "";
   const sep = raw.includes("/") ? "/" : "-";
@@ -81,38 +83,45 @@ const toISO = (raw) => {
   return `${yyyy}-${pad(mm)}-${pad(dd)}`;
 };
 
+// Devuelve el color y label del estado
 const getEstado = (value) =>
   ESTADOS.find((e) => e.value === value) ?? { label: value, color: "#999999", value };
 
 export default function GestionarSin() {
+
+
+  // Data principal (cada siniestro con su fecha normalizada)
   const [data, setData] = useState(
     SINIESTROS_INICIALES.map((s) => ({ ...s, fechaISO: toISO(s.fecha) }))
   );
 
+  // Filtros del panel lateral
   const [filtros, setFiltros] = useState({
     fecha: "",
     estado: "",
     numeroSiniestro: "",
   });
 
+  // Control del modal y su formulario
   const [modalOpen, setModalOpen] = useState(false);
   const [modalId, setModalId] = useState(null);
   const [modalForm, setModalForm] = useState({
     taller: "",
     grua: "",
     estado: "",
-    archivo: null,        // File seleccionado en el modal
-    archivoURL: "",       // Object URL del File
+    archivo: null,       
+    archivoURL: "",      
   });
 
+  // Abrir/Cerrar modal y precargar datos del siniestro
   const openModal = (siniestro) => {
     setModalForm({
       taller: siniestro.taller ?? "",
       grua: siniestro.grua ?? "",
       estado: siniestro.estadoClase ?? "",
-      archivo: null, // archivo nuevo (si se elige)
-      archivoURL: siniestro.archivoURL || "", // si ya hay archivo, se mantiene
-      archivoNombre: siniestro.archivoNombre || "", // nombre existente
+      archivo: null,                               // archivo nuevo (si se elige)
+      archivoURL: siniestro.archivoURL || "",      // mantener URL previa si existe
+      archivoNombre: siniestro.archivoNombre || "",// mantener nombre previo si existe
     });
     setModalId(siniestro.numeroSiniestro);
     setModalOpen(true);
@@ -124,33 +133,36 @@ export default function GestionarSin() {
     setModalForm({ taller: "", grua: "", estado: "", archivo: null, archivoURL: "" });
   };
 
+
+  // Guardar cambios del modal en la data principal
   const handleModalSubmit = (e) => {
     e.preventDefault();
     setData((prev) =>
       prev.map((s) =>
         s.numeroSiniestro === modalId
           ? {
-            ...s,
-            taller: modalForm.taller,
-            grua: modalForm.grua,
-            estadoClase: modalForm.estado,
-            // Si hay nuevo archivo → usa ese, si no → mantiene el anterior
-            archivoNombre:
-              modalForm.archivo?.name || modalForm.archivoNombre || s.archivoNombre || "",
-            archivoURL:
-              modalForm.archivoURL || modalForm.archivoURL || s.archivoURL || "",
-          }
+              ...s,
+              taller: modalForm.taller,
+              grua: modalForm.grua,
+              estadoClase: modalForm.estado,
+              // Si se sube archivo nuevo, se actualiza nombre y URL; si no, se conserva
+              archivoNombre:
+                modalForm.archivo?.name || modalForm.archivoNombre || s.archivoNombre || "",
+              archivoURL:
+                modalForm.archivoURL || modalForm.archivoURL || s.archivoURL || "",
+            }
           : s
       )
     );
     closeModal();
   };
 
-
+  //Limpiar filtros
   const handleResetFiltros = () => {
     setFiltros({ fecha: "", estado: "", numeroSiniestro: "" });
   };
 
+  // Filtrado de siniestros según filtros activos
   const siniestrosFiltrados = useMemo(() => {
     const pol = filtros.numeroSiniestro.trim().toLowerCase();
     return data.filter((s) => {
@@ -161,6 +173,7 @@ export default function GestionarSin() {
     });
   }, [data, filtros]);
 
+  
   return (
     <main>
       <br />
@@ -202,10 +215,9 @@ export default function GestionarSin() {
                     <p>{s.telefono}</p>
                     <p>{s.email}</p>
 
-                    {/* DESCARGA DEL ARCHIVO GUARDADO */}
+                    {/* Enlace de descarga si hay archivo guardado */}
                     {s.archivoURL ? (
                       <p style={{ fontSize: 13 }}>
-                        
                         <a href={s.archivoURL} download={s.archivoNombre}>
                           DESCARGAR PRESPUESTO
                         </a>
@@ -227,6 +239,7 @@ export default function GestionarSin() {
           )}
         </section>
 
+        {/* Panel de filtros simples */}
         <aside className="seccion-extra">
           <h2>𖤘 FILTRAR</h2>
 
@@ -272,6 +285,7 @@ export default function GestionarSin() {
         </aside>
       </div>
 
+      {/* Modal de gestión de siniestro */}
       {modalOpen && (
         <div id="modal-panel" className="modal-panel" style={{ display: "flex" }}>
           <div className="modal-content">
@@ -281,7 +295,7 @@ export default function GestionarSin() {
             <h2>Gestionar Siniestro</h2>
 
             <form id="gestion-form" onSubmit={handleModalSubmit}>
-              {/* Taller con datalist */}
+              {/* Taller (con datalist para autocompletar) */}
               <label htmlFor="modal-taller">Taller:</label>
               <input
                 list="lista-talleres"
@@ -296,9 +310,9 @@ export default function GestionarSin() {
                   <option key={g.taller} value={g.taller} label={`${g.direccion}`} />
                 ))}
               </datalist>
-              <small className="hint">Puedes elegir una de la lista o tipear otro taller.</small>
+              <small className="hint">Puedes elegir uno o tipear otro taller.</small>
 
-              {/* Grúa (visible según estado) */}
+              {/* Grúa (solo si corresponde por estado) */}
               {shouldShow("grua", modalForm.estado) && (
                 <>
                   <label htmlFor="modal-grua">Grúa:</label>
@@ -319,7 +333,7 @@ export default function GestionarSin() {
                 </>
               )}
 
-              {/* Estado */}
+              {/* Estado (select simple) */}
               <label htmlFor="modal-estado">Estado:</label>
               <select
                 id="modal-estado"
@@ -334,7 +348,7 @@ export default function GestionarSin() {
                 ))}
               </select>
 
-              {/* Archivo adjunto -> generamos Object URL para descargar en la card */}
+              {/* Archivo adjunto (genera URL para descargar desde la card) */}
               <br /><br />
               <br /><br />
               <label htmlFor="modal-archivo">Archivo adjunto:</label>
@@ -355,7 +369,7 @@ export default function GestionarSin() {
                 accept="application/pdf,image/*"
               />
 
-              {/* Si ya hay archivo guardado */}
+              {/* Preview/descarga del archivo actual */}
               {(modalForm.archivoNombre || modalForm.archivo) && (
                 <p style={{ fontSize: 13, marginTop: 5 }}>
                   📎 Archivo actual:{" "}

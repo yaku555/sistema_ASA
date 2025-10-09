@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from "react-router-do
 import { useEffect, useState } from "react";
 import logo from "./assets/logo.png";
 
+// Importación de componentes
 import Inicio from "./compsAdmin/Inicio";
 import RegistrarSin from "./compsAdmin/RegistrarSin";
 import ReportesBI from "./compsAdmin/ReportesBI";
@@ -12,6 +13,7 @@ import Login from "./compsUsuario/login";
 
 export default function App() {
   return (
+    // Definición del Router
     <Router>
       <section className="borde_nav">
         <div className="header">
@@ -36,7 +38,6 @@ export default function App() {
                 <p>correo@gmail.com</p>
               </div>
             </div>
-
             <NavLink to="/login" className={({ isActive }) => (isActive ? "active " : "") + "btn"}>
               REGISTRO / LOGIN
             </NavLink>
@@ -76,6 +77,7 @@ export default function App() {
       </section>
 
       <main>
+        {/* Definición de rutas */}
         <Routes>
           <Route path="/" element={<Inicio />} />
           <Route path="/registrarSin" element={<RegistrarSin />} />

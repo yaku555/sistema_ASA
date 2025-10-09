@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import '../estilos/gestion.css';
 
+
+// Lista usuarios de prueba
 const USUARIOS_INICIALES = [
   {
     rut: "12.345.678-9",
@@ -30,14 +32,25 @@ const USUARIOS_INICIALES = [
   },
 ];
 
+// Opciones permitidas para el campo “rol”
 const ROLES = ["Administrador", "Usuario", "Supervisor"];
 
 export default function AdminUsuarios() {
+  // Estados principales:
+
+  //lista completa
   const [usuarios, setUsuarios] = useState(USUARIOS_INICIALES);
+
+  // Valores de los filtros
   const [filtros, setFiltros] = useState({ nombre: "", rut: "", rol: "", activo: "" });
+
+  // Estado del modal de edición 
   const [modal, setModal] = useState({ open: false, usuario: null });
 
-  // Filtrar usuarios solo al hacer click en FILTRAR
+  // Resultado de aplicar filtros sobre la lista completa
+  const [usuariosFiltrados, setUsuariosFiltrados] = useState(usuarios);
+
+  // Aplica los filtros actuales sobre la lista completa.
   const filtrar = () => usuarios.filter(u =>
     (!filtros.nombre || u.nombre.toLowerCase().includes(filtros.nombre.toLowerCase())) &&
     (!filtros.rut || u.rut.includes(filtros.rut)) &&
@@ -45,17 +58,22 @@ export default function AdminUsuarios() {
     (filtros.activo === "" || u.activo === (filtros.activo === "true"))
   );
 
-  const [usuariosFiltrados, setUsuariosFiltrados] = useState(usuarios);
-
+  // Ejecuta el filtrado y actualiza lo visible
   const handleFiltrar = () => setUsuariosFiltrados(filtrar());
+
+  // Limpia filtros y muestra nuevamente toda la lista
   const handleResetFiltros = () => {
     setFiltros({ nombre: "", rut: "", rol: "", activo: "" });
     setUsuariosFiltrados(usuarios);
   };
 
+  // Abre el modal con el usuario seleccionado
   const openModal = usuario => setModal({ open: true, usuario });
+
+  // Cierra el modal y limpia el usuario en edición
   const closeModal = () => setModal({ open: false, usuario: null });
 
+  // Sincroniza los cambios de los inputs 
   const handleModalChange = e => {
     const { name, value } = e.target;
     setModal(m => ({
@@ -64,6 +82,11 @@ export default function AdminUsuarios() {
     }));
   };
 
+
+  // Reemplaza el usuario editado en:
+  // - la lista completa (`usuarios`)
+  // - y la lista filtrada actualmente visible (`usuariosFiltrados`)
+  // Luego cierra el modal.
   const handleModalSubmit = e => {
     e.preventDefault();
     setUsuarios(us =>
@@ -104,16 +127,32 @@ export default function AdminUsuarios() {
         <aside className="seccion-extra">
           <h2>𖤘 FILTRAR USUARIOS</h2>
           <label>Nombre:</label>
-          <input className="filtro" value={filtros.nombre} onChange={e => setFiltros(f => ({ ...f, nombre: e.target.value }))} />
+          <input
+            className="filtro"
+            value={filtros.nombre}
+            onChange={e => setFiltros(f => ({ ...f, nombre: e.target.value }))}
+          />
           <label>RUT:</label>
-          <input className="filtro" value={filtros.rut} onChange={e => setFiltros(f => ({ ...f, rut: e.target.value }))} />
+          <input
+            className="filtro"
+            value={filtros.rut}
+            onChange={e => setFiltros(f => ({ ...f, rut: e.target.value }))}
+          />
           <label>Rol:</label>
-          <select className="filtro" value={filtros.rol} onChange={e => setFiltros(f => ({ ...f, rol: e.target.value }))}>
+          <select
+            className="filtro"
+            value={filtros.rol}
+            onChange={e => setFiltros(f => ({ ...f, rol: e.target.value }))}
+          >
             <option value="">Todos</option>
             {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
           </select>
           <label>Estado:</label>
-          <select className="filtro" value={filtros.activo} onChange={e => setFiltros(f => ({ ...f, activo: e.target.value }))}>
+          <select
+            className="filtro"
+            value={filtros.activo}
+            onChange={e => setFiltros(f => ({ ...f, activo: e.target.value }))}
+          >
             <option value="">Todos</option>
             <option value="true">Activo</option>
             <option value="false">Inactivo</option>
